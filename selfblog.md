@@ -72,3 +72,11 @@ With the backend logic cleanly separated, we built the web interface step-by-ste
 -   **Templating:** We used a `page.pug` base template to ensure a consistent layout and navigation across the entire web application, extending it for the index, view, new, and edit pages.
 
 The final result is a powerful and maintainable application with two distinct, fully-featured interfaces sharing a single, robust backend.
+
+### 3. Polishing the Web Experience
+To bring the web interface to feature parity with the CLI and improve its usability, we added several key enhancements:
+-   **Full-Text Search:** A search bar was added to the main navigation, allowing users to find notes from any page.
+-   **Tag-Based Browsing:** All tags displayed in the UI were converted into clickable links, enabling users to easily find all notes sharing a specific tag.
+-   **Category Suggestions:** The "Category" input field on the new and edit forms was upgraded with a `<datalist>` element, providing users with suggestions of existing categories to promote consistency.
+-   **Markdown Rendering:** We added the `Markdown` library to the project and a custom template filter in Flask. This ensures that note content is correctly rendered as HTML in the web view.
+-   **CSS Refactoring:** The primary stylesheet (`selfnote.css`) was significantly cleaned up and refactored to be more focused on the application's components, improving maintainability and visual consistency.
