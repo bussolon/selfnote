@@ -8,33 +8,31 @@ SelfNote is built on a robust backend with two distinct, feature-rich interfaces
 
 ### Core Functionality
 
+*   **Multi-User Support:** A full user authentication system allows multiple users to register and manage their own private set of notes.
+*   **Secure Passwords:** User passwords are never stored in plain text. They are securely hashed and salted using modern standards.
 *   **SQLite Backend:** All notes are stored in a simple, single-file SQLite database (`notes.db`).
 *   **Rich Metadata:** Each note includes a title, content, category, and multiple tags.
-*   **Unique IDs:** Notes are identified by UUIDs, ensuring portability and scalability.
 *   **Markdown-Friendly:** Note content is treated as Markdown, allowing for rich text formatting.
 
 ### Command-Line Interface (CLI)
 
-The CLI is designed for speed and power, allowing you to manage your notes without leaving the terminal.
+The CLI is designed for speed and power, allowing you to manage notes for any user without leaving the terminal.
 
-*   **Full CRUD:** Create, view, edit, and delete notes.
+*   **User-Context Aware:** All commands are performed on behalf of a specific user, specified via the `--username` flag or a `SELFNOTE_USER` environment variable.
+*   **Full CRUD:** Create, view, edit, and delete notes for the specified user.
 *   **External Editor Integration:** Create and edit notes in your favorite terminal editor (`micro` by default).
-*   **Powerful Listing:** List the latest notes, or filter the list by category.
-*   **Advanced Search:**
-    *   Full-text search across all note titles and content.
-    *   Filter notes by a specific tag.
+*   **Powerful Listing & Search:** List, filter, and search notes belonging to the specified user.
 *   **Markdown Export:** Save any note to a portable Markdown file with a Pandoc-compatible YAML frontmatter header.
-*   **Interactive Prompts:** Smart prompts guide you to select existing categories or create new ones on the fly.
 
 ### Web Interface
 
-The web UI provides a clean, convenient, and visually accessible way to manage your notes.
+The web UI provides a clean, secure, and visually accessible way to manage your notes.
 
-*   **Full CRUD:** A complete web interface for creating, reading, updating, and deleting notes.
+*   **Full Authentication Flow:** Users can register, log in, and log out. All note-related pages are protected and require a login.
+*   **Full CRUD:** A complete web interface for creating, reading, updating, and deleting your own notes.
 *   **Responsive Layout:** A clean and simple interface that works on different screen sizes.
-*   **Full-Text Search:** A search bar in the navigation allows you to find notes from any page.
-*   **Category Suggestions:** The category field suggests existing categories as you type, helping maintain consistency.
-*   **Pug Templating:** Built with the Pug templating engine for clean and maintainable views.
+*   **Full-Text & Tag Search:** A search bar and clickable tags allow for easy discovery of your notes.
+*   **Category Suggestions:** The category field suggests your existing categories as you type.
 
 ## Installation
 
@@ -56,55 +54,40 @@ The web UI provides a clean, convenient, and visually accessible way to manage y
 
 SelfNote can be run as either a command-line tool or a web application.
 
-### Command-Line Interface
+### Web Interface (Recommended for most users)
 
-The CLI is the primary way to interact with your notes from the terminal.
-
-**Run the CLI:**
-```bash
-python -m note_app [COMMAND]
-```
-
-**Examples:**
-```bash
-# Create a new note
-python -m note_app "My New Note Title" --category "Ideas" --tags "python,project"
-
-# List the 10 most recent notes
-python -m note_app -l
-
-# List notes in a specific category
-python -m note_app -l "Ideas"
-
-# View a specific note
-python -m note_app -v <UUID>
-
-# Edit a note
-python -m note_app -e <UUID>
-
-# Delete a note
-python -m note_app -d <UUID>
-
-# Full-text search
-python -m note_app --search "keyword"
-
-# Search by tag
-python -m note_app --search-tag "python"
-```
-
-### Web Interface
-
-The web interface provides a graphical way to manage your notes.
+The web interface is the primary way to interact with SelfNote.
 
 **Run the web server:**
 ```bash
 python -m note_app web
 ```
-Then, open your browser and navigate to `http://127.0.0.1:5000`.
+Then, open your browser and navigate to `http://127.0.0.1:5000`. You will need to register a new user before you can log in and start creating notes.
+
+### Command-Line Interface (Admin & Power-User Tool)
+
+The CLI acts as a trusted admin tool for your local database. You must specify which user you are acting on behalf of.
+
+**Set the user for your session (optional):**
+```bash
+export SELFNOTE_USER=your_username
+```
+
+**Run commands:**
+```bash
+# Create a new note for the specified user
+python -m note_app "My New Note Title" --username your_username
+
+# List notes for the user set in the environment variable
+python -m note_app -l
+
+# View a note for a different user
+python -m note_app -v <UUID> --username another_user
+```
 
 ## Future Enhancements
 
 We have several ideas for future versions of SelfNote:
 
 *   **Styling Improvements:** Refine the existing CSS to create a more polished and consistent user interface.
-*   **User Authentication:** Add an optional login system to the web interface to keep notes private.
+*   **Enhanced Note Editing:** Allow editing of a note's metadata (title, category, tags) directly from the web UI's edit page.
