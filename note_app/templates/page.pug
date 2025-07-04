@@ -1,0 +1,79 @@
+
+
+!!! 5
+html(lang="en")
+	head
+		meta(charset="utf-8")
+		meta(name="viewport" content="width=device-width,minimum-scale=1,initial-scale=1")
+		link(rel="icon" type="image/x-icon" href="{{ url_for('static', filename='selfnote.ico') }}")
+
+		if title
+			title= "SelfNote | " +title
+			meta(property="og:title" content=""+title)
+			meta(name="twitter:title" content=""+title)
+
+		if description
+			meta(name="description" content=""+description)
+			meta(itemprop="description" content=""+description)
+			meta(property="og:description" content=""+description)
+			meta(name="twitter:description" content=""+description)
+		link(rel="stylesheet" href="{{ url_for('static', filename='selfnote.css') }}")
+	body
+		div#topFixed
+			nav#topnav(aria-label="main navigation")
+				div.topnavIcons
+					div.topnavItem
+						a#navIcon(href="/" title="Self Note")
+							img(src="{{ url_for('static', filename='selfnote.png') }}" width="60" height="60" alt="Logo Selfnote")
+					div.topnavItem.burger
+						a#mobile_burger(role="button" aria-label="menu" aria-expanded="false" data-target="mainMenu")
+							img(src="https://www.bussolon.it/assets/hamburger.svg" alt="hamburger icon" style="margin:3px;")
+				div.responsiveMenu#mainMenu
+					div.topnavLeft
+						div.topnavItem
+							a(href="/" title="") Selfnote
+						div.topnavItem
+							a(href="#" title="") Lorem ipsum
+
+		section.section#header
+			div(style="flex:auto") &nbsp;
+
+			div.container(style="flex:auto")
+				if breadcrumbs
+					nav.breadcrumb
+						ul
+							for branch in breadcrumbs
+								li
+									a(href=branch.url style="color:#fff")=branch.label
+
+				if title
+					div#title
+						h1.title.is-1(style="color:#fff")= title
+				else
+					span &nbsp;
+				div.adc(style="color:#fff")
+					if author
+							span.lvlabel Pubblicato da 
+							| #{author} 
+					if date
+							span.lvlabel  il 
+							| #{date} 
+					if categories
+							span.lvlabel#categories in 
+							for category in categories
+								a.category(href=baseUrl + "categories/" + category + ".html")=category 
+					if tags
+							span &nbsp;
+							span.lvlabel#tags Parole chiave: 
+							for tag in tags
+								a.tag(href=baseUrl + "tags/" + tag + ".html")=tag 
+								|  | 
+
+
+				if description
+					div.clearfix#description( style="color:#fff")=description
+				if abstract
+					div.clearfix#abstract(style="color:#fff")=abstract
+				//- if (image)
+					img(src=image)
+		block contents
