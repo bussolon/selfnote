@@ -50,3 +50,25 @@ Finally, we added crucial management features:
 ## Final Outcome
 
 The result of our collaboration is `note.py`, a feature-rich, command-line note-taking application that is both powerful for advanced users and simple enough for quick, everyday use. It supports creating, viewing, listing, editing, deleting, searching, and exporting notes in a structured and user-friendly way.
+
+## Phase 2: Adding a Flask Web Interface
+
+Building on the solid foundation of the CLI tool, we evolved the project into a dual-interface application by adding a web UI powered by Flask.
+
+### 1. Project Restructuring
+The most critical step was a complete architectural refactoring to ensure the CLI and web app could coexist and share logic.
+-   **Code Separation:** We created a `note_app` Python package. The original script's logic was split into a `database.py` file (the data layer) and a `cli.py` file (the CLI presentation layer).
+-   **Single Entry Point:** We introduced a `__main__.py` dispatcher, allowing the application to be run as a package (`python -m note_app`). This dispatcher launches the CLI by default, or the web app if run with the `web` argument (`python -m note_app web`).
+-   **Version Control:** We initialized a Git repository and created a `.gitignore` file to properly manage the project's source code.
+
+### 2. Building the Web Application
+With the backend logic cleanly separated, we built the web interface step-by-step.
+-   **Dependencies:** We chose `Flask` as the web framework and `pypugjs` to enable the use of the Pug templating engine, as requested.
+-   **Core Functionality (CRUD):** We implemented the full set of Create, Read, Update, and Delete operations:
+    -   **Read:** The home page (`/`) lists all recent notes, with links to view each one on its own dedicated page (`/note/<uuid>`).
+    -   **Create:** A `/new` page provides a form for creating new notes.
+    -   **Update:** An `/edit/<uuid>` page allows for modifying a note's title, content, category, and tags.
+    -   **Delete:** A "Delete" button on the edit page provides a safe, confirmation-based way to remove notes.
+-   **Templating:** We used a `page.pug` base template to ensure a consistent layout and navigation across the entire web application, extending it for the index, view, new, and edit pages.
+
+The final result is a powerful and maintainable application with two distinct, fully-featured interfaces sharing a single, robust backend.

@@ -1,0 +1,32 @@
+
+extends page.pug
+
+block contents
+  section.section
+    .container
+      h1.title.is-1 Search Results
+      h2.subtitle.is-3 for "#{query}"
+
+      if notes
+        p Found #{notes|length} note(s).
+        hr
+        each note in notes
+          .card.mb-4
+            .card-content
+              p.title.is-4= note.title
+              p.subtitle.is-6
+                | #[strong Date:] #{note.timestamp}
+                if note.category
+                  br
+                  | #[strong Category:] #{note.category}
+              .content
+                = note.content[:200] + '...'
+                br
+                if note.tags
+                  strong Tags: 
+                  | #{note.tags}
+            footer.card-footer
+              a.card-footer-item(href=url_for('view_note', note_id=note.id)) View
+              a.card-footer-item(href=url_for('edit_note', note_id=note.id)) Edit
+      else
+        p No notes found matching your search query.

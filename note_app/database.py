@@ -173,6 +173,27 @@ def search_notes(keyword):
     conn.close()
     return notes
 
+def update_note(note_id, title, content, category_name, tags_str):
+    """Updates all fields of a specific note."""
+    conn = sqlite3.connect(DB_NAME)
+    cursor = conn.cursor()
+
+    # Update basic note info
+    category_id = _get_or_create_category(cursor, category_name)
+    cursor.execute(
+        "UPDATE notes SET title = ?, content = ?, category_id = ? WHERE id = ?",
+        (title, content, category_id, note_id)
+    )
+
+    # Update tags - first remove old tags, then add new ones
+    cursor.execute("DELETE FROM note_tags WHERE note_id = ?", (note_id,))
+    tag_ids = _get_or_create_tags(cursor, tags_str)
+    for tag_id in tag_ids:
+        cursor.execute("INSERT INTO note_tags (note_id, tag_id) VALUES (?, ?)", (note_id, tag_id))
+
+    conn.commit()
+    conn.close()
+
 def search_by_tag(tag_name):
     """Searches for notes by a specific tag."""
     conn = sqlite3.connect(DB_NAME)

@@ -33,7 +33,15 @@ html(lang="en")
 						div.topnavItem
 							a(href="/" title="") Selfnote
 						div.topnavItem
-							a(href="#" title="") Lorem ipsum
+							a(href=url_for('new_note') title="Create a New Note") New Note
+					div.topnavRight
+						div.topnavItem
+							form(method="GET" action=url_for('search'))
+								.field.has-addons
+									.control
+										input.input(type="text" name="q" placeholder="Search notes...")
+									.control
+										button.button.is-primary(type="submit") Search
 
 		section.section#header
 			div(style="flex:auto") &nbsp;
