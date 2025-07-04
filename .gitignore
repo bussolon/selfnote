@@ -1,0 +1,12 @@
+# Database
+notes.db
+*.sqlite3
+*.db
+
+# Python
+__pycache__/
+*.pyc
+.env
+venv/
+.venv/
+env/
