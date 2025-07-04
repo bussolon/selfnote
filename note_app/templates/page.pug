@@ -31,17 +31,28 @@ html(lang="en")
 				div.responsiveMenu#mainMenu
 					div.topnavLeft
 						div.topnavItem
-							a(href="/" title="") Selfnote
-						div.topnavItem
-							a(href=url_for('new_note') title="Create a New Note") New Note
+							a(href=url_for('index') title="Home") Selfnote
+						if session.user_id
+							div.topnavItem
+								a(href=url_for('new_note') title="Create a New Note") New Note
 					div.topnavRight
-						div.topnavItem
-							form(method="GET" action=url_for('search'))
-								.field.has-addons
-									.control
-										input.input(type="text" name="q" placeholder="Search notes...")
-									.control
-										button.button.is-primary(type="submit") Search
+						if session.user_id
+							div.topnavItem
+								form(method="GET" action=url_for('search'))
+									.field.has-addons
+										.control
+											input.input(type="text" name="q" placeholder="Search notes...")
+										.control
+											button.button.is-primary(type="submit") Search
+							div.topnavItem
+								span Welcome, #{session.username}!
+							div.topnavItem
+								a(href=url_for('logout')) Logout
+						else
+							div.topnavItem
+								a(href=url_for('login')) Login
+							div.topnavItem
+								a(href=url_for('register')) Register
 
 		section.section#header
 			div(style="flex:auto") &nbsp;
