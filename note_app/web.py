@@ -82,6 +82,12 @@ def create_app():
             database.delete_note(note_id_str)
         return redirect(url_for('index'))
 
+    @app.route('/tag/<tag_name>')
+    def view_by_tag(tag_name):
+        """Displays all notes with a specific tag."""
+        notes = database.search_by_tag(tag_name)
+        return render_template('search_results.pug', notes=notes, query=f"tag: {tag_name}", title=f"Notes tagged with '{tag_name}'")
+
     @app.route('/note/<uuid:note_id>')
     def view_note(note_id):
         """Renders the page for a single note."""

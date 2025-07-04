@@ -1,0 +1,10 @@
+//- Mixin to render a list of tags as clickable links
+mixin tag_list(tags_string)
+  if tags_string
+    //- Use JavaScript for template logic, as Pug expects.
+    //- each tag in tags_string.split(',').map(t => t.trim()).filter(t => t)
+    -
+      var tags = tags_string.split(',');
+    for tag in tags
+      a.tag.is-info(href=url_for('view_by_tag', tag_name=tag)) #{tag}
+      | 
