@@ -106,7 +106,5 @@ Then, open your browser and navigate to `http://127.0.0.1:5000`.
 
 We have several ideas for future versions of SelfNote:
 
-*   **Markdown Rendering:** Convert note content from Markdown to HTML in the web view.
-*   **Tag-Based Search in Web UI:** Add a dedicated page or search operator to browse all notes associated with a specific tag.
 *   **Styling Improvements:** Refine the existing CSS to create a more polished and consistent user interface.
 *   **User Authentication:** Add an optional login system to the web interface to keep notes private.
