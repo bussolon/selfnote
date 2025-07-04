@@ -80,3 +80,29 @@ To bring the web interface to feature parity with the CLI and improve its usabil
 -   **Category Suggestions:** The "Category" input field on the new and edit forms was upgraded with a `<datalist>` element, providing users with suggestions of existing categories to promote consistency.
 -   **Markdown Rendering:** We added the `Markdown` library to the project and a custom template filter in Flask. This ensures that note content is correctly rendered as HTML in the web view.
 -   **CSS Refactoring:** The primary stylesheet (`selfnote.css`) was significantly cleaned up and refactored to be more focused on the application's components, improving maintainability and visual consistency.
+
+## Phase 3: Implementing Multi-User Authentication
+
+The final major phase of development was to transform the application from a single-user tool into a secure, multi-user platform.
+
+### 1. Database Schema for Users
+We laid the foundation by extending the database schema.
+-   **New `users` Table:** A `users` table was created to store a `username`, a unique `email`, and a securely hashed `password`. User IDs are UUIDs to maintain consistency.
+-   **Data Isolation:** A `user_id` foreign key was added to the `notes`, `categories`, and `tags` tables, ensuring that every piece of data is explicitly owned by a user.
+
+### 2. Securing the Data Layer
+This was the most critical part of the implementation.
+-   **Password Hashing:** We used the `werkzeug` library's `generate_password_hash` and `check_password_hash` functions to ensure passwords are never stored in plain text.
+-   **User-Specific Functions:** Every single data-layer function in `database.py` was refactored to require a `user_id`. This guarantees that a user can only ever query or modify their own data, preventing any data leakage between accounts.
+
+### 3. Web Authentication Flow
+We built a complete and secure authentication system for the web interface.
+-   **Routes:** New routes for `/register`, `/login`, and `/logout` were created.
+-   **Session Management:** Flask's secure session management was used to track the logged-in user.
+-   **Route Protection:** A `login_required` decorator was implemented and applied to every note-related route, redirecting unauthenticated users to the login page.
+-   **Dynamic UI:** The navigation bar was updated to dynamically show "Login/Register" links to logged-out users and a "Logout" link to logged-in users.
+
+### 4. Refactoring the CLI
+With the database now requiring a `user_id` for all operations, the CLI was refactored to work as a trusted "admin" tool.
+-   **User Context:** The CLI now determines the user context by checking for a `--username` command-line flag or a `SELFNOTE_USER` environment variable.
+-   **Passwordless Operation:** The CLI does not require a password, operating on the assumption that local access to the machine and database file is sufficient authorization. This maintains its speed and convenience for power users and scripting.
