@@ -1,11 +1,17 @@
 
 from flask import Flask, render_template, request, redirect, url_for
 from . import database
+import markdown
 
 def create_app():
     """Creates and configures the Flask application."""
     app = Flask(__name__)
     app.jinja_env.add_extension('pypugjs.ext.jinja.PyPugJSExtension')
+
+    @app.template_filter('markdown')
+    def markdown_filter(s):
+        return markdown.markdown(s)
+
 
     @app.route('/')
     def index():

@@ -16,6 +16,6 @@ block contents
         .content
           // Use the '!=' operator to output unescaped HTML if your notes contain markdown
           // that you want to render. Be cautious with this if content is user-generated.
-          != note.content
+          != note.content|markdown
       else
         h1.title.is-1 Note Not Found
