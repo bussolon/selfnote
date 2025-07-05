@@ -106,3 +106,18 @@ We built a complete and secure authentication system for the web interface.
 With the database now requiring a `user_id` for all operations, the CLI was refactored to work as a trusted "admin" tool.
 -   **User Context:** The CLI now determines the user context by checking for a `--username` command-line flag or a `SELFNOTE_USER` environment variable.
 -   **Passwordless Operation:** The CLI does not require a password, operating on the assumption that local access to the machine and database file is sufficient authorization. This maintains its speed and convenience for power users and scripting.
+
+## Phase 4: Final Polish and Feature Parity
+
+To conclude the core development, we performed a final round of polishing and enhancements.
+
+### 1. Bringing the CLI to Feature Parity
+The last remaining gap between the two interfaces was in the CLI's edit command. We enhanced it to be just as powerful as the web UI's edit form.
+-   **Metadata Editing:** The `edit` command was upgraded to accept new flags (`--new-title`, `--new-category`, `--new-tags`) to allow for direct modification of a note's metadata from the command line.
+-   **Content Editing Control:** A `--no-edit-content` flag was added to allow for metadata-only updates without opening the text editor.
+
+### 2. Documentation and Styling
+-   **README Updates:** The project's main `README.md` file was updated to reflect all the new features, including the full authentication system and the updated CLI commands.
+-   **Final UI Polish:** We performed a final round of styling improvements, fixing the header layout and replacing the text-based search button with a clean SVG icon for a more modern and compact look.
+
+With these changes, the project reached a state of completion, with two fully-featured, secure, and well-documented interfaces.
