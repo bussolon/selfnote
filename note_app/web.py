@@ -159,7 +159,7 @@ def create_app():
 def run_app():
     """Runs the Flask development server."""
     app = create_app()
-    app.run(debug=True)
+    app.run(port=5001, debug=True)
 
 if __name__ == '__main__':
     run_app()

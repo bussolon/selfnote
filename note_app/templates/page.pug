@@ -17,6 +17,9 @@ html(lang="en")
 			meta(itemprop="description" content=""+description)
 			meta(property="og:description" content=""+description)
 			meta(name="twitter:description" content=""+description)
+		link(rel="preconnect" href="https://fonts.googleapis.com")
+		link(rel="preconnect" href="https://fonts.gstatic.com" crossorigin)
+		link(href="https://fonts.googleapis.com/css2?family=Lato:wght@400;700&family=Merriweather:wght@700&display=swap" rel="stylesheet")
 		link(rel="stylesheet" href="{{ url_for('static', filename='selfnote.css') }}")
 	body
 		div#topFixed
@@ -38,12 +41,12 @@ html(lang="en")
 					div.topnavRight
 						if session.user_id
 							div.topnavItem
-								form(method="GET" action=url_for('search'))
-									.field.has-addons
-										.control
-											input.input(type="text" name="q" placeholder="Search notes...")
-										.control
-											button.button.is-primary(type="submit") Search
+								form.search-form(method="GET" action=url_for('search'))
+									input.input.is-small(type="text" name="q" placeholder="Search...")
+									button.button.is-primary.is-small(type="submit" aria-label="Search")
+										svg(xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round")
+											circle(cx="11" cy="11" r="8")
+											line(x1="21" y1="21" x2="16.65" y2="16.65")
 							div.topnavItem
 								span Welcome, #{session.username}!
 							div.topnavItem
@@ -96,3 +99,11 @@ html(lang="en")
 				//- if (image)
 					img(src=image)
 		block contents
+
+		//- Flash messages will be rendered here
+		.container
+			- with messages = get_flashed_messages(with_categories=true)
+				if messages
+					each category, message in messages
+						.notification(class=['notification', 'is-' + category])
+							= message

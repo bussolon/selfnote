@@ -4,32 +4,33 @@ extends page.pug
 block contents
   section.section
     .container
-      h1.title.is-1 New Note
-      form(method="POST" action=url_for('new_note'))
-        .field
-          label.label(for="title") Title
-          .control
-            input.input#title(type="text" name="title" required)
-        
-        .field
-          label.label(for="content") Content
-          .control
-            textarea.textarea#content(name="content" rows="10" required)
+      .form-container
+        h1.title.is-1.has-text-centered New Note
+        form(method="POST" action=url_for('new_note'))
+          .field
+            label.label(for="title") Title
+            .control
+              input.input#title(type="text" name="title" required)
+          
+          .field
+            label.label(for="content") Content
+            .control
+              textarea.textarea#content(name="content" rows="10" required)
 
-        .field
-          label.label(for="category") Category
-          .control
-            input.input#category(type="text" name="category" list="category-suggestions" placeholder="e.g., Work, Personal")
-            datalist#category-suggestions
-              if categories
-                each category in categories
-                  option(value=category)
+          .field
+            label.label(for="category") Category
+            .control
+              input.input#category(type="text" name="category" list="category-suggestions" placeholder="e.g., Work, Personal")
+              datalist#category-suggestions
+                if categories
+                  each category in categories
+                    option(value=category)
 
-        .field
-          label.label(for="tags") Tags
-          .control
-            input.input#tags(type="text" name="tags" placeholder="e.g., python, cli, web")
-        
-        .field
-          .control
-            button.button.is-primary(type="submit") Create Note
+          .field
+            label.label(for="tags") Tags
+            .control
+              input.input#tags(type="text" name="tags" placeholder="e.g., python, cli, web")
+          
+          .field
+            .control
+              button.button.is-primary(type="submit") Create Note

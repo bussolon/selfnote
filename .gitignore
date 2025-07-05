@@ -3,6 +3,9 @@ notes.db
 *.sqlite3
 *.db
 
+# Exported Notes
+*.pdf
+
 # Python
 __pycache__/
 *.pyc

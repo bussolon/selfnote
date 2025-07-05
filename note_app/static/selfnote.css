@@ -1,7 +1,17 @@
-/* --- Base & Typography --- */
-*,
-*::before,
-*::after {
+/* --- Variables & Base --- */
+:root {
+  --primary-color: #007bff; /* A modern, friendly blue */
+  --header-bg: #2c3e50;     /* A dark, serious charcoal blue */
+  --body-bg: #f8f9fa;       /* A very light, soft gray */
+  --text-color: #343a40;
+  --heading-color: #2c3e50;
+  --card-bg: #ffffff;
+  --border-color: #dee2e6;
+  --success-color: #28a745;
+  --error-color: #dc3545;
+}
+
+*, *::before, *::after {
   box-sizing: border-box;
 }
 
@@ -13,50 +23,53 @@ html {
 body {
   padding: 0;
   margin: 0;
-  font-family: BlinkMacSystemFont, -apple-system, "Segoe UI", Roboto, Oxygen, Ubuntu, Cantarell, "Fira Sans", "Droid Sans", "Helvetica Neue", Helvetica, Arial, sans-serif;
-  color: #363636;
-  background-color: #f8f8f8;
+  font-family: 'Lato', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+  color: var(--text-color);
+  background-color: var(--body-bg);
 }
 
 h1, h2, h3, h4, h5, h6 {
   font-family: 'Merriweather', georgia, serif;
-  color: #174b7c;
-  font-weight: 600;
-  line-height: 1.125;
+  color: var(--heading-color);
+  font-weight: 700;
+  line-height: 1.2;
 }
 
-.title { color: #b32614; }
-.subtitle { color: #4a4a4a; }
+.title { color: var(--heading-color); }
+.subtitle { color: #6c757d; }
 
-.title.is-1, h1 { font-size: 2rem; }
+.title.is-1, h1 { font-size: 2.25rem; }
 .title.is-2, h2 { font-size: 1.75rem; }
 .title.is-3, h3 { font-size: 1.5rem; }
 .title.is-4, h4 { font-size: 1.25rem; }
 
 a {
-  color: #006070;
+  color: var(--primary-color);
   text-decoration: none;
+  transition: color 0.2s ease-in-out;
 }
 a:hover {
-  text-decoration: underline;
+  color: #0056b3;
+  text-decoration: none;
 }
 
 /* --- Layout --- */
 .section {
-  padding: 1.5rem;
+  padding: 2rem 1.5rem;
 }
 
 .container {
   margin: 0 auto;
   position: relative;
   max-width: 960px;
+  padding: 0 1rem;
 }
 
 #header {
-  background-color: #174b7c;
-  margin-top: 3.2rem;
-  padding: 2rem 1.5rem;
+  background-color: var(--header-bg);
+  padding: 2.5rem 1.5rem;
   color: #fff;
+  margin-top: 3.5rem; /* Height of the navbar */
 }
 #header .title, #header .subtitle {
   color: #fff;
@@ -68,25 +81,21 @@ a:hover {
   width: 100%;
   top: 0;
   left: 0;
-  right: 0;
-  border-bottom: 1px solid #dbdbdb;
-  z-index: 300;
-  background-color: white;
+  border-bottom: 1px solid var(--border-color);
+  z-index: 1000;
+  background-color: var(--card-bg);
+  box-shadow: 0 2px 4px rgba(0,0,0,0.05);
 }
 
 #topnav {
-  min-height: 3.25rem;
+  min-height: 3.5rem;
   display: flex;
   justify-content: space-between;
   align-items: center;
-  padding: 0 1rem;
   max-width: 960px;
   margin: 0 auto;
-}
-
-.topnavIcons {
-  display: flex;
-  align-items: center;
+  padding: 0 1rem;
+  gap: 1rem; /* Add gap between major nav sections */
 }
 
 .responsiveMenu {
@@ -94,11 +103,13 @@ a:hover {
   align-items: center;
   justify-content: space-between;
   flex-grow: 1;
+  gap: 1rem; /* Add gap between left and right sections */
 }
 
 .topnavLeft, .topnavRight {
   display: flex;
   align-items: center;
+  gap: 1rem; /* Add gap between items within each section */
 }
 
 .topnavRight {
@@ -106,33 +117,61 @@ a:hover {
 }
 
 .topnavItem {
-  padding: 0.5rem 0.75rem;
+  display: flex;
+  align-items: center;
+  white-space: nowrap; /* Prevent text from wrapping */
 }
 .topnavItem a {
-  color: #4a4a4a;
+  color: var(--text-color);
+  font-weight: 700;
 }
 .topnavItem img {
-  max-height: 2rem;
+  max-height: 2.25rem;
 }
 
-.burger {
-  display: none; /* Simplified for now */
+/* Specific fix for the search form */
+.search-form {
+  display: flex;
+  align-items: center;
+}
+.search-form .input {
+  border-top-right-radius: 0;
+  border-bottom-right-radius: 0;
+  padding: 0.5rem;
+}
+.search-form .button {
+  border-top-left-radius: 0;
+  border-bottom-left-radius: 0;
+  padding: 0.5rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.search-form .button svg {
+  stroke: white;
 }
 
 /* --- Forms --- */
+.form-container {
+  max-width: 600px;
+  margin: 2rem auto;
+  padding: 2rem;
+  background: var(--card-bg);
+  border-radius: 8px;
+  box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+}
+
 .field {
-  margin-bottom: 0.75rem;
+  margin-bottom: 1rem;
 }
 .field.is-grouped {
   display: flex;
   justify-content: flex-start;
-}
-.field.is-grouped .control {
-  margin-right: 0.75rem;
+  gap: 0.75rem;
 }
 
 .label {
-  color: #363636;
+  color: var(--heading-color);
   display: block;
   font-size: 1rem;
   font-weight: 700;
@@ -142,53 +181,57 @@ a:hover {
 .input, .textarea {
   display: block;
   width: 100%;
-  padding: 0.5rem;
+  padding: 0.75rem;
   font-size: 1rem;
-  border: 1px solid #dbdbdb;
+  border: 1px solid var(--border-color);
   border-radius: 4px;
-  background-color: white;
-  color: #363636;
+  background-color: #fff;
+  color: var(--text-color);
+  transition: border-color 0.2s ease, box-shadow 0.2s ease;
 }
 .input:focus, .textarea:focus {
   outline: none;
-  border-color: #006070;
-  box-shadow: 0 0 0 0.125em rgba(0, 96, 112, 0.25);
+  border-color: var(--primary-color);
+  box-shadow: 0 0 0 0.2rem rgba(0, 123, 255, 0.25);
 }
 
 .button {
   display: inline-block;
-  padding: 0.5rem 1rem;
+  padding: 0.75rem 1.5rem;
   font-size: 1rem;
+  font-weight: 700;
   border-radius: 4px;
   cursor: pointer;
   text-align: center;
   border: 1px solid transparent;
+  transition: background-color 0.2s ease, border-color 0.2s ease;
 }
 .button.is-primary {
-  background-color: #006070;
-  border-color: transparent;
+  background-color: var(--primary-color);
   color: white;
 }
 .button.is-primary:hover {
-  background-color: #004c5a;
+  background-color: #0069d9;
 }
 .button.is-danger {
-  background-color: #b32614;
+  background-color: var(--error-color);
   color: white;
 }
 .button.is-danger:hover {
-  background-color: #9c2112;
-}
-.button.is-text {
-  text-decoration: underline;
+  background-color: #c82333;
 }
 
 /* --- Components --- */
 .card {
-  background-color: white;
-  border-radius: 6px;
-  box-shadow: 0 2px 3px rgba(10, 10, 10, 0.1), 0 0 0 1px rgba(10, 10, 10, 0.1);
+  background-color: var(--card-bg);
+  border-radius: 8px;
+  box-shadow: 0 4px 6px rgba(0,0,0,0.05);
   margin-bottom: 1.5rem;
+  transition: transform 0.2s ease-in-out, box-shadow 0.2s ease-in-out;
+}
+.card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 8px 12px rgba(0,0,0,0.1);
 }
 
 .card-content {
@@ -196,50 +239,82 @@ a:hover {
 }
 
 .card-footer {
-  border-top: 1px solid #dbdbdb;
+  border-top: 1px solid var(--border-color);
   display: flex;
 }
-
 .card-footer-item {
-  padding: 0.75rem;
+  padding: 1rem;
   flex-basis: 0;
   flex-grow: 1;
   text-align: center;
+  font-weight: 700;
 }
 .card-footer-item:not(:last-child) {
-  border-right: 1px solid #dbdbdb;
+  border-right: 1px solid var(--border-color);
+}
+
+.tag.is-info {
+  background-color: #e7f3ff;
+  color: #0056b3;
+  padding: 0.25em 0.75em;
+  border-radius: 1em;
+  font-size: 0.875em;
+  display: inline-block;
+  margin-right: 0.5em;
+  margin-bottom: 0.5em;
+}
+.tag.is-info:hover {
+  background-color: #cce4ff;
+}
+
+/* --- Flash Messages / Notifications --- */
+.notification {
+  padding: 1rem 1.25rem;
+  border-radius: 4px;
+  margin-bottom: 1rem;
+}
+.notification.is-danger {
+  background-color: #f8d7da;
+  color: #721c24;
+  border: 1px solid #f5c6cb;
+}
+.notification.is-success {
+  background-color: #d4edda;
+  color: #155724;
+  border: 1px solid #c3e6cb;
 }
 
 /* --- Content --- */
 .content {
-  line-height: 1.6;
+  line-height: 1.7;
 }
 .content h1, .content h2, .content h3, .content h4, .content h5, .content h6 {
-  margin: 1.5em 0 0.5em 0;
+  margin: 2em 0 1em 0;
 }
 .content p {
-  margin-bottom: 1em;
+  margin-bottom: 1.25em;
 }
 .content ul {
-  list-style-position: inside;
-  margin-bottom: 1em;
+  list-style-position: outside;
+  padding-left: 1.5em;
+  margin-bottom: 1.25em;
 }
 .content blockquote {
-  background-color: #f5f5f5;
-  border-left: 5px solid #dbdbdb;
+  background-color: #f1f3f5;
+  border-left: 5px solid var(--border-color);
   padding: 1.25em 1.5em;
-  margin-bottom: 1em;
+  margin: 0 0 1.25em 0;
 }
 .content pre {
-  background-color: #f5f5f5;
+  background-color: #f1f3f5;
   padding: 1.25em 1.5em;
   border-radius: 4px;
   overflow-x: auto;
   white-space: pre;
 }
 .content code {
-  background-color: #f5f5f5;
+  background-color: #e9ecef;
   padding: 0.25em 0.5em;
   border-radius: 4px;
-  font-size: 0.875em;
+  font-size: 0.9em;
 }

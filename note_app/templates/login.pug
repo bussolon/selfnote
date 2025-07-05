@@ -4,24 +4,20 @@ extends page.pug
 block contents
   section.section
     .container
-      h1.title.is-1 Login
-      if get_flashed_messages()
-        .notification.is-danger
-          ul
-            for message in get_flashed_messages()
-              li= message
-      form(method="POST" action=url_for('login'))
-        .field
-          label.label(for="username") Username
-          .control
-            input.input#username(type="text" name="username" required)
-        .field
-          label.label(for="password") Password
-          .control
-            input.input#password(type="password" name="password" required)
-        .field
-          .control
-            button.button.is-primary(type="submit") Login
-      hr
-      p Don't have an account? 
-        a(href=url_for('register')) Register here.
+      .form-container
+        h1.title.is-1.has-text-centered Login
+        form(method="POST" action=url_for('login'))
+          .field
+            label.label(for="username") Username
+            .control
+              input.input#username(type="text" name="username" required)
+          .field
+            label.label(for="password") Password
+            .control
+              input.input#password(type="password" name="password" required)
+          .field
+            .control
+              button.button.is-primary(type="submit") Login
+        hr
+        p.has-text-centered Don't have an account? 
+          a(href=url_for('register')) Register here.

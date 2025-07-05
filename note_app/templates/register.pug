@@ -4,28 +4,24 @@ extends page.pug
 block contents
   section.section
     .container
-      h1.title.is-1 Register
-      if get_flashed_messages()
-        .notification.is-danger
-          ul
-            for message in get_flashed_messages()
-              li= message
-      form(method="POST" action=url_for('register'))
-        .field
-          label.label(for="username") Username
-          .control
-            input.input#username(type="text" name="username" required)
-        .field
-          label.label(for="email") Email
-          .control
-            input.input#email(type="email" name="email" required)
-        .field
-          label.label(for="password") Password
-          .control
-            input.input#password(type="password" name="password" required)
-        .field
-          .control
-            button.button.is-primary(type="submit") Register
-      hr
-      p Already have an account? 
-        a(href=url_for('login')) Log in here.
+      .form-container
+        h1.title.is-1.has-text-centered Register
+        form(method="POST" action=url_for('register'))
+          .field
+            label.label(for="username") Username
+            .control
+              input.input#username(type="text" name="username" required)
+          .field
+            label.label(for="email") Email
+            .control
+              input.input#email(type="email" name="email" required)
+          .field
+            label.label(for="password") Password
+            .control
+              input.input#password(type="password" name="password" required)
+          .field
+            .control
+              button.button.is-primary(type="submit") Register
+        hr
+        p.has-text-centered Already have an account? 
+          a(href=url_for('login')) Log in here.
