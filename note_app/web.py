@@ -5,10 +5,31 @@ import markdown
 import os
 from functools import wraps
 
-def create_app():
+def create_app(test_config=None):
     """Creates and configures the Flask application."""
-    app = Flask(__name__)
-    app.config['SECRET_KEY'] = os.urandom(24)
+    app = Flask(__name__, instance_relative_config=True)
+    app.config.from_mapping(
+        SECRET_KEY=os.urandom(24),
+        # Default database path, can be overridden by test_config
+        DATABASE=os.path.join(app.instance_path, 'notes.db'),
+    )
+
+    if test_config is None:
+        # load the instance config, if it exists, when not testing
+        app.config.from_pyfile('config.py', silent=True)
+    else:
+        # load the test config if passed in
+        app.config.from_mapping(test_config)
+
+    # ensure the instance folder exists
+    try:
+        os.makedirs(app.instance_path)
+    except OSError:
+        pass
+
+    # Set the database path for our database module
+    database.DB_NAME = app.config['DATABASE']
+
     app.jinja_env.add_extension('pypugjs.ext.jinja.PyPugJSExtension')
 
     @app.template_filter('markdown')
