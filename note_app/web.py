@@ -1,17 +1,18 @@
-
 from flask import Flask, render_template, request, redirect, url_for, session, flash
 from . import database
 import markdown
 import os
 from functools import wraps
+from dotenv import load_dotenv
 
 def create_app(test_config=None):
     """Creates and configures the Flask application."""
+    load_dotenv() # Load environment variables from .env file
+
     app = Flask(__name__, instance_relative_config=True)
     app.config.from_mapping(
-        SECRET_KEY=os.urandom(24),
-        # Default database path, can be overridden by test_config
-        DATABASE=os.path.join(app.instance_path, 'notes.db'),
+        SECRET_KEY=os.environ.get('SECRET_KEY', 'dev'), # Default to 'dev' if not set
+        DATABASE=os.environ.get('DATABASE', os.path.join(app.instance_path, 'notes.db')),
     )
 
     if test_config is None:
@@ -176,11 +177,3 @@ def create_app(test_config=None):
         else:
             return "Note not found or you don't have permission to view it.", 404
     return app
-
-def run_app():
-    """Runs the Flask development server."""
-    app = create_app()
-    app.run(port=5001, debug=True)
-
-if __name__ == '__main__':
-    run_app()

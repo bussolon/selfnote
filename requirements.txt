@@ -2,3 +2,5 @@ Flask
 pypugjs
 Markdown
 pytest
+python-dotenv
+gunicorn
