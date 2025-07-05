@@ -147,3 +147,23 @@ We created two test files to cover the application's two main layers:
 -   **`tests/test_web.py`:** Contains tests for the web interface, verifying the authentication flow (registration, login, logout, and route protection) works as expected.
 
 After a collaborative debugging process, the full test suite of 7 tests passed successfully, marking the project as truly complete and robust.
+
+## Phase 6: Production Readiness
+
+The final phase of development was to prepare the application for a real-world production deployment. This involved moving from a development-centric setup to one focused on security, flexibility, and portability.
+
+### 1. Externalizing Configuration
+To improve security and align with the [Twelve-Factor App](https://12factor.net/config) methodology, we moved all configuration out of the code.
+-   **`.env` File:** We introduced a `.env` file for convenient local development and added `python-dotenv` to the project dependencies to load it automatically.
+-   **Environment Variables:** The Flask application was refactored to read its `SECRET_KEY` and `DATABASE` path from environment variables, with sensible defaults. This is a critical security practice that prevents secrets from being hard-coded into the source code.
+
+### 2. Production Web Server
+We added **Gunicorn**, a robust, production-grade WSGI server, to the project's dependencies. This replaces Flask's built-in development server, which is not suitable for handling real traffic. A `wsgi.py` file was added to provide a standard entry point for Gunicorn.
+
+### 3. Containerization with Docker
+The most significant step was creating a `Dockerfile`. This file acts as a universal blueprint for building a self-contained, portable container image of the SelfNote application.
+-   **Reproducible Builds:** The Dockerfile defines the Python version, installs all dependencies, and copies the application code, ensuring a consistent environment everywhere.
+-   **Easy Deployment:** This containerized approach makes deploying the application to any modern cloud hosting platform (like Heroku, AWS, or DigitalOcean) a straightforward and reliable process.
+-   **Production Start Command:** The Dockerfile's default command is set to run the application using the Gunicorn server, completing the production setup.
+
+With these changes, SelfNote evolved from a completed project into a truly deployable web application, ready to be shared with the world.
