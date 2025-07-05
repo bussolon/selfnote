@@ -1,3 +1,4 @@
+
 import argparse
 import sys
 import os
@@ -17,15 +18,23 @@ def main():
     
     # Actions
     parser.add_argument("title", nargs='?', default=None, help="The title of the note (required for new notes).")
-    parser.add_argument("--category", "-c", help="The category of the note.")
-    parser.add_argument("--tags", help="A comma-separated list of tags.")
+    parser.add_argument("--category", "-c", help="The category for a new note.")
+    parser.add_argument("--tags", help="A comma-separated list of tags for a new note.")
     parser.add_argument("-l", "--list", nargs='?', const=True, default=None, help="List last 10 notes. Can be followed by a category name to filter.")
     parser.add_argument("-v", "--view", help="View a single note by its UUID.")
     parser.add_argument("-s", "--save", help="Save a note to a Markdown file by its UUID.")
-    parser.add_argument("-e", "--edit", help="Edit a note's content by its UUID.")
     parser.add_argument("-d", "--delete", help="Delete a note by its UUID.")
     parser.add_argument("--search", help="Search for a keyword in note titles and content.")
     parser.add_argument("--search-tag", help="Search for notes by a specific tag.")
+    
+    # Edit-specific arguments
+    edit_group = parser.add_argument_group('edit arguments')
+    edit_group.add_argument("-e", "--edit", help="The UUID of the note to edit.")
+    edit_group.add_argument("--new-title", help="New title for the note being edited.")
+    edit_group.add_argument("--new-category", help="New category for the note being edited.")
+    edit_group.add_argument("--new-tags", help="New comma-separated tags for the note being edited.")
+    edit_group.add_argument("--no-edit-content", action="store_true", help="Do not open the editor for the note body. Use this when only updating metadata.")
+
 
     args = parser.parse_args()
 
@@ -42,6 +51,10 @@ def main():
 
     # --- Action Handling ---
 
+    if args.edit:
+        _edit_note_handler(args, user_id)
+        return
+
     if args.search:
         notes = database.search_notes(args.search, user_id)
         _display_note_list(notes, f"Found {len(notes)} note(s) for user '{username}' matching '{args.search}':")
@@ -50,10 +63,6 @@ def main():
     if args.search_tag:
         notes = database.search_by_tag(args.search_tag, user_id)
         _display_note_list(notes, f"Found {len(notes)} note(s) for user '{username}' with tag '{args.search_tag}':")
-        return
-
-    if args.edit:
-        _edit_note_handler(args.edit, user_id)
         return
 
     if args.delete:
@@ -127,20 +136,34 @@ def _create_note_handler(args, user_id):
     note_id = database.add_note(args.title, content, category_name, tags_str, user_id)
     print(f"\nNote '{args.title}' (ID: {note_id}) added successfully.")
 
-def _edit_note_handler(note_id, user_id):
+def _edit_note_handler(args, user_id):
+    note_id = args.edit
     note = database.get_note(note_id, user_id)
     if not note:
         print(f"No note found with ID: {note_id}")
         return
     
-    new_content = _get_content_from_editor(initial_content=note['content'])
+    # Start with existing values
+    new_title = args.new_title or note['title']
+    new_category = args.new_category or note['category']
+    new_tags = args.new_tags or note['tags']
     
-    if new_content != note['content']:
-        # For simplicity, CLI only edits content. Use web UI for metadata.
-        database.update_note_content(note_id, new_content, user_id)
-        print("Note content updated successfully.")
+    if args.no_edit_content:
+        new_content = note['content']
     else:
+        new_content = _get_content_from_editor(initial_content=note['content'])
+
+    # Check if anything actually changed
+    if (new_title == note['title'] and
+        new_content == note['content'] and
+        new_category == note['category'] and
+        new_tags == note['tags']):
         print("No changes detected.")
+        return
+
+    database.update_note(note_id, new_title, new_content, new_category, new_tags, user_id)
+    print("Note updated successfully.")
+
 
 def _delete_note_handler(note_id, user_id):
     note = database.get_note(note_id, user_id)

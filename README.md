@@ -90,4 +90,3 @@ python -m note_app -v <UUID> --username another_user
 We have several ideas for future versions of SelfNote:
 
 *   **Styling Improvements:** Refine the existing CSS to create a more polished and consistent user interface.
-*   **Enhanced Note Editing:** Allow editing of a note's metadata (title, category, tags) directly from the web UI's edit page.
