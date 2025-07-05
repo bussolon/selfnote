@@ -121,3 +121,29 @@ The last remaining gap between the two interfaces was in the CLI's edit command.
 -   **Final UI Polish:** We performed a final round of styling improvements, fixing the header layout and replacing the text-based search button with a clean SVG icon for a more modern and compact look.
 
 With these changes, the project reached a state of completion, with two fully-featured, secure, and well-documented interfaces.
+
+## Phase 5: Ensuring Long-Term Stability with Automated Testing
+
+The final step in creating a professional-grade application was to build an automated test suite. This provides a safety net to prevent future regressions and ensure the application remains stable and reliable.
+
+### 1. Test Suite Setup
+We chose `pytest`, the standard testing framework for Python, to build our suite.
+-   **Test Directory:** A `tests/` directory was created to house all test files.
+-   **Dependencies:** `pytest` was added to the project's `requirements.txt`.
+
+### 2. A Testable Architecture
+A critical part of the process was refactoring the application to make it testable.
+-   **Database Refactoring:** The `database.py` module was significantly refactored. All functions were modified to accept an optional database connection object. This allows tests to control the database transaction and ensure all operations happen on a single, isolated, in-memory database.
+-   **Flask App Factory:** The `create_app` function in `web.py` was updated to follow the "Application Factory" pattern, allowing different configurations to be passed in for testing.
+
+### 3. Pytest Fixtures
+We created a robust set of fixtures in `tests/conftest.py` to provide a clean testing environment.
+-   **Application Fixture:** An `app` fixture creates a new instance of the Flask application configured for testing, with its database pointed at a temporary file.
+-   **Test Client Fixture:** A `client` fixture provides a Flask test client, which can simulate web requests to the application without needing a live server.
+
+### 4. Comprehensive Test Coverage
+We created two test files to cover the application's two main layers:
+-   **`tests/test_database.py`:** Contains tests for the core database logic, including user creation and, most critically, a test to ensure that one user cannot access another user's notes.
+-   **`tests/test_web.py`:** Contains tests for the web interface, verifying the authentication flow (registration, login, logout, and route protection) works as expected.
+
+After a collaborative debugging process, the full test suite of 7 tests passed successfully, marking the project as truly complete and robust.
