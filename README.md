@@ -85,6 +85,16 @@ python -m note_app -l
 python -m note_app -v <UUID> --username another_user
 ```
 
+## Testing
+
+The project includes a comprehensive test suite using `pytest`. The tests cover both the database layer and the web application routes.
+
+To run the test suite, execute the following command from the root of the project directory:
+
+```bash
+PYTHONPATH=. pytest
+```
+
 ## Future Enhancements
 
 We have several ideas for future versions of SelfNote:
